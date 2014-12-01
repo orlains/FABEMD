@@ -94,8 +94,29 @@ int main(int argc, char **argv)
 #pragma endregion
 
     CImg<float> input("data/elaine.bmp");
-    FABEMD fabemd(input);
-    fabemd.execute().display();
+    FABEMD fabemd(sample);
+    CImg<float> result = fabemd.execute();
+    unsigned int z = 0;
+
+    CImgDisplay display(result.slice(z));
+    
+    while (!display.is_closed())
+    {
+        if (display.wheel())
+        {
+            z += display.wheel();
+            if (z < 0)
+            {
+                z = 0;
+            }
+            else if (z >= result.depth())
+            {
+                z = result.depth() - 1;
+            }
+            display.render(result.slice(z));
+        }
+    }
+
 
     return 0;
 }

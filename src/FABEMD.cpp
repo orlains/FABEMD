@@ -2,7 +2,7 @@
 
 using namespace cimg_library;
 
-FABEMD::FABEMD(const CImg<float> & input, unsigned int size, float threshold, OSFW osfwType)
+FABEMD::FABEMD(const CImg<float> & input, OSFW osfwType, unsigned int maximumAllowableIterations, unsigned int size, float threshold)
 {
     _input = input.get_channel(0);
     _width = (unsigned int)_input.width();
@@ -15,6 +15,7 @@ FABEMD::FABEMD(const CImg<float> & input, unsigned int size, float threshold, OS
 
     _size = size;
     _threshold = threshold;
+    _maximumAllowableIterations = maximumAllowableIterations;
     _osfwType = osfwType;
 }
 
@@ -94,15 +95,15 @@ void FABEMD::computeNearests(std::vector<Extrema> & extremas)
     }
 }
 
-bool FABEMD::hasBIMFProperties()
+float FABEMD::computeVariance()
 {
     float standardDeviation = 0.0;
     cimg_forXY(_averageEnvelope, x, y)
     {
         standardDeviation += (_averageEnvelope(x, y) * _averageEnvelope(x, y)) / (_bimf(x, y) * _bimf(x, y));
     }
-    std::cout << "Standard deviation: " << standardDeviation << std::endl;
-    return standardDeviation < _threshold;
+
+    return standardDeviation;
 }
 
 unsigned int FABEMD::extremaCount()
@@ -172,108 +173,85 @@ void FABEMD::computeWindowsWidths()
 
 void FABEMD::computeLowerEnvelope()
 {
-    _lowerEnvelope.fill(_bimf(_localMinimas.cbegin()->x(), _localMinimas.cbegin()->y()));
-    // For each minima
-    for (std::vector<Extrema>::iterator it = _localMinimas.begin(); it != _localMinimas.end(); ++it)
+    cimg_forXY(_lowerEnvelope, m, n)
     {
-        Extrema extrema = *it;
-        unsigned int m = extrema.x();
-        unsigned int n = extrema.y();
-        float extremaValue = _bimf(m, n);
         unsigned int minK = (unsigned int)std::max(0, (int)(m - (_windowWidthMin - 1) / 2));
         unsigned int minL = (unsigned int)std::max(0, (int)(n - (_windowWidthMin - 1) / 2));
         unsigned int maxK = (unsigned int)std::min((int)(_width - 1), (int)(m + (_windowWidthMin - 1) / 2));
         unsigned int maxL = (unsigned int)std::min((int)(_height - 1), (int)(n + (_windowWidthMin - 1) / 2));
         unsigned int k = minK;
         unsigned int l = minL;
+        float value = std::numeric_limits<float>::infinity();
 
         // Loop over (m,n) neighborhood
         while (k <= maxK)
         {
             while (l <= maxL)
             {
-                if (_lowerEnvelope(k, l) > extremaValue)
+                if (_bimf(k, l) < value)
                 {
-                    _lowerEnvelope(k, l) = extremaValue;
+                    value = _bimf(k, l);
                 }
                 ++l;
             }
             l = minL;
             ++k;
         }
+        _lowerEnvelope(m, n) = value;
     }
 }
 
 void FABEMD::computeUpperEnvelope()
 {
-    _upperEnvelope.fill(_bimf(_localMaximas.cbegin()->x(), _localMaximas.cbegin()->y()));
-    // For each maxima
-    for (std::vector<Extrema>::iterator it = _localMaximas.begin(); it != _localMaximas.end(); ++it)
+    cimg_forXY(_upperEnvelope, m, n)
     {
-        Extrema extrema = *it;
-        unsigned int m = extrema.x();
-        unsigned int n = extrema.y();
-        float extremaValue = _bimf(m, n);
         unsigned int minK = (unsigned int)std::max(0, (int)(m - (_windowWidthMax - 1) / 2));
         unsigned int minL = (unsigned int)std::max(0, (int)(n - (_windowWidthMax - 1) / 2));
         unsigned int maxK = (unsigned int)std::min((int)(_width - 1), (int)(m + (_windowWidthMax - 1) / 2));
         unsigned int maxL = (unsigned int)std::min((int)(_height - 1), (int)(n + (_windowWidthMax - 1) / 2));
         unsigned int k = minK;
         unsigned int l = minL;
+        float value = -std::numeric_limits<float>::infinity();
 
         // Loop over (m,n) neighborhood
         while (k <= maxK)
         {
             while (l <= maxL)
             {
-                if (_upperEnvelope(k, l) < extremaValue)
+                if (_bimf(k, l) > value)
                 {
-                    _upperEnvelope(k, l) = extremaValue;
+                    value = _bimf(k, l);
                 }
                 ++l;
             }
             l = minL;
             ++k;
         }
+        _upperEnvelope(m, n) = value;
     }
 }
 
 CImg<float> FABEMD::execute()
 {
+    CImg<float> display(_width, _height, 30, 1, 0.0);
+    unsigned int z = 0;
+
     // (i) Set i = 1. Take I and set S_i = I
     unsigned int i = 1;
     do
     {
-        std::cout << "BIMF-" << i << std::endl;
-
         // (ii) Set j = 1. Set F_{T_j} = S_i.
         unsigned int j = 1;
         _bimf = _input;
         do
         {
-            std::cout << "ITS-BIMF-" << i << "-" << j << std::endl;
+            std::cout << "ITS-BIMF-" << i << "-" << j << ": ";
             //-----------------------------------------------------------------
             // 3.1. Detection of local extrema
             //-----------------------------------------------------------------
             // (v) Obtain the local minima map (LMMIN) of F_{T_j}, denoted as Q_j.
             // (iii) Obtain the local maxima map (LMMAX) of F_{T_j}, denoted as P_j.
             this->buildExtremasMaps();
-
-            //CImg<float> minimas = CImg<float>(_width, _height);
-            //minimas.fill(0.0);
-            //for (auto it = _localMinimas.begin(); it != _localMinimas.end(); ++it)
-            //{
-            //    minimas(it->x(), it->y()) = _bimf(it->x(), it->y());
-            //}
-            //minimas.display("Minimas");
-
-            //CImg<float> maximas = CImg<float>(_width, _height);
-            //maximas.fill(0.0);
-            //for (auto it = _localMaximas.begin(); it != _localMaximas.end(); ++it)
-            //{
-            //    maximas(it->x(), it->y()) = _bimf(it->x(), it->y());
-            //}
-            //maximas.display("Maximas");
 
             //-----------------------------------------------------------------
             // 3.2. Generating upper and lower envelopes
@@ -293,8 +271,6 @@ CImg<float> FABEMD::execute()
             minKernel.fill(1.0f / (_windowWidthMin * _windowWidthMin));
             _lowerEnvelope.convolve(minKernel);
 
-
-
             // (iv) Form the upper envelope (UE) of F_{T_j}, denoted as U_{E_j} by interpolating the minima points in P_j
             this->computeUpperEnvelope();
             // Smooth upper envelope
@@ -303,28 +279,25 @@ CImg<float> FABEMD::execute()
             _upperEnvelope.convolve(maxKernel);
 
 
-
             // (vii) Find the mean/average envelope (ME) as M_{E_j} = (U_{E_j} + L_{E_j}) / 2.
-            _averageEnvelope = _lowerEnvelope + _upperEnvelope / 2.0;
+            _averageEnvelope = (_lowerEnvelope + _upperEnvelope) / 2.0;
 
-
+            _variance = this->computeVariance();
+            std::cout << _variance << std::endl;
             // (viii) Calculate F_{T_{j+1}} as F_{T_{j+1}} = F_{T_j} - M_{E_j}
             ++j;
-            _bimf = _bimf - _averageEnvelope;
-            _bimf.display("bimf");
+            _bimf -= _averageEnvelope;
             // (ix) Check whether F_{T_{j+1}} follows the BIMF properties
-        } while (!this->hasBIMFProperties());
+        } while (_variance > _threshold && j <= _maximumAllowableIterations);
 
         // (x) S_i = S_{i-1} - F_{i-1}
         ++i;
-        _input = _input - _bimf;
+        _input -= _bimf;
 
-
-
-        _input.display("BIMF");
-        std::cout << "Extrema count: " << this->extremaCount() << std::endl;
+        std::cout << "BIMF-" << i << ": " << this->extremaCount() << std::endl;
+        display.slice(z++) = CImg<float>(_input);
         // (xi) Determine whether S_i has less than three extrema points
     } while (this->extremaCount() >= 3);
 
-    return _input;
+    return display;
 }

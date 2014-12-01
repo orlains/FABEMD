@@ -27,7 +27,9 @@ private:
     unsigned int _width;
     unsigned int _height;
     unsigned int _size;
+    float _variance;
     float _threshold;
+    unsigned int _maximumAllowableIterations;
     OSFW _osfwType;
     unsigned int _windowWidthMax;
     unsigned int _windowWidthMin;
@@ -43,13 +45,13 @@ private:
 
     void buildExtremasMaps();
     void computeNearests(std::vector<Extrema> & extremas);
-    bool hasBIMFProperties();
+    float computeVariance();
     unsigned int extremaCount();
     void computeWindowsWidths();
     void computeLowerEnvelope();
     void computeUpperEnvelope();
 public:
-    FABEMD(const cimg_library::CImg<float> & input, unsigned int size = 3, float threshold = 0.5, OSFW osfwType = OSFW::SAME_TYPE_4);
+    FABEMD(const cimg_library::CImg<float> & input, OSFW osfwType = OSFW::SAME_TYPE_1, unsigned int maximumAllowableIterations = 1, unsigned int size = 3, float threshold = 0.5);
     ~FABEMD();
     cimg_library::CImg<float> execute();
 };
