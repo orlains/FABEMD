@@ -3,11 +3,33 @@
 \usepackage[T1]{fontenc}
 \usepackage[francais,american]{babel}
 
+\usepackage[section]{algorithm}
+\usepackage{algpseudocode}
+% Francisation des algorithmes
+\floatname{algorithm}{Algorithme}
+% francisation des algorithmes
+\renewcommand{\algorithmicwhile}   {\textbf{tant que}}
+\renewcommand{\algorithmicdo}      {\textbf{faire}}
+\renewcommand{\algorithmicend}     {\textbf{fin}}
+\renewcommand{\algorithmicif}      {\textbf{si}}
+\renewcommand{\algorithmicelse}    {\textbf{sinon}}
+\renewcommand{\algorithmicthen}    {\textbf{alors}}
+\renewcommand{\algorithmicfor}     {\textbf{pour}}
+\renewcommand{\algorithmicforall}  {\textbf{pour tout}}
+\renewcommand{\algorithmicdo}      {\textbf{faire}}
+\renewcommand{\algorithmicrepeat}  {\textbf{répéter}}
+\renewcommand{\algorithmicuntil}   {\textbf{jusqu'à}}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+\usepackage[hidelinks]{hyperref}
+
 \begin{document}
 \frenchspacing
 \selectlanguage{francais}
 
-\title{Fast and Adaptive Bidimensional Empirical Mode Decomposition Using Order-Statistics Filter Based Envelope Estimation}
+\title{Fast and Adaptive Bidimensional Empirical Mode Decomposition Using Order-Statistics Filter Based Envelope Estimation implementation}
 \author{Antoine \textsc{Colmard} et Nicolas \textsc{Prugne}}
 \maketitle
 

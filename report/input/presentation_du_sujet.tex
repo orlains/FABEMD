@@ -1,2 +1,12 @@
 \chapter{Présentation du sujet}
-On rappelle ici le sujet du projet, la référence de l'article et l'objectif du travail.
+
+Cet article aborde l'amélioration apportée par Bhuiyan et al. \cite{BhuiyanAK08} à la Décomposition Empirique Multimodale
+Bidimensionnelle (\textit{Bidimensional Empirical Mode Decomposition}). L'amélioration utilise une estimation de l'enveloppe se basant sur un filtre à statistique d'ordre afin d'améliorer les performances de l'algorithme original.
+
+L'algorithme original développé par Huang et al. \cite{HuangSL98} était utilisé dans le cadre du traitement du signal pour analyser des données non linéaires et non stationnaires. La technique décompose le signal en ses fonctions modales intrinsèques (IMF) puis extrait les distributions temps-fréquence de chaque fonction. Cette décomposition a ensuite été étendue à deux dimensions. Cette décomposition itérative se base principalement sur la recherche des extremums de l'image et de l'interpolation de ceux-ci. Ces étapes peuvent consister en des routines compliquées et coûteuses en temps. Certaines images peuvent donc prendre plusieurs heures ou jours pour être décomposées. L'autre défaut des implémentations actuelles de BEMD repose dans le fait que les points d'interpolation ne sont pas choisis en bordure. Ceci résulte en une imprécision de l'interpolation qui peut se propager jusqu'au centre de l'image.
+
+La décomposition possède de nombreuses applications pratiques telles que l'analyse d'imagerie médicale, de patterns, de textures, etc. Cependant, son implémentation actuelle ne permet pas le traitement efficace d'image de grande taille. Cette perte de détails empêche l'extraction précise d'informations par BEMD. Ainsi, il est important de pouvoir apporter des améliorations à BEMD afin de pouvoir étendre son champ d'application.
+
+L'amélioration proposée dans l'article de Bhuiyan et al. révise les étapes de recherche de maximas et de minimas ainsi que l'estimation des enveloppes de BEMD afin d'en améliorer les performances. L'algorithme ainsi défini est désigné par \textit{Fast and Adaptive Bidimensional Empirical Mode Decomposition} (FABEMD).
+
+Dans cet article, nous aborderons l'algorithme de FABEMD, l'implémentation que nous avons fait de celui-ci et les résultats obtenus.

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="FABEMD">
+    <Position X="11.25" Y="0.75" Width="8" />
+    <TypeIdentifier>
+      <HashCode>gIAAAAAQAAKAgEAACAAEQBCGABBAABQAAigQGAIBAAA=</HashCode>
+      <FileName>src\FABEMD.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Extrema">
+    <Position X="7.5" Y="0.5" Width="3" />
+    <NestedTypes>
+      <Struct Name="Extrema::Less" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>src\Extrema.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="Extrema::Greater" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>src\Extrema.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAIQAAAAAAAAGAAAAAEAAAAAAAABgBAAAIAA=</HashCode>
+      <FileName>src\Extrema.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="OSFW">
+    <Position X="8" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAIAAAAAAAAAlgCAAAAAAAABAA=</HashCode>
+      <FileName>src\FABEMD.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

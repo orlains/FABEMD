@@ -181,3 +181,13 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+report/*.aux
+report/*.bbl
+report/*.blg
+report/*.lof
+report/*.log
+report/*.out
+report/*.synctex.gz
+report/*.toc
+
