@@ -57,7 +57,7 @@ void FABEMD::buildExtremasMaps()
         {
             while ((isMinima || isMaxima) && l <= maxL)
             {
-                if (k != m || l != n)
+                if (k != (unsigned int)m || l != (unsigned int)n)
                 {
                     if (_bimf(k, l) >= _bimf(m, n))
                     {
@@ -159,45 +159,45 @@ void FABEMD::computeFiltersWidths()
 {
     switch (_osfwType)
     {
-    case OSFW::SAME_TYPE_1:
+    case SAME_TYPE_1:
         _windowWidthMin = (unsigned int)std::min(
-            _localMinimas.crbegin()->distance(),
-            _localMaximas.cbegin()->distance());
+            _localMinimas.rbegin()->distance(),
+            _localMaximas.begin()->distance());
         _windowWidthMax = _windowWidthMin;
         break;
-    case OSFW::SAME_TYPE_2:
+    case SAME_TYPE_2:
         _windowWidthMin = (unsigned int)std::max(
-            _localMinimas.crbegin()->distance(),
-            _localMaximas.cbegin()->distance());
+            _localMinimas.rbegin()->distance(),
+            _localMaximas.begin()->distance());
         _windowWidthMax = _windowWidthMin;
         break;
-    case OSFW::SAME_TYPE_3:
+    case SAME_TYPE_3:
         _windowWidthMin = (unsigned int)std::min(
-            _localMinimas.cbegin()->distance(),
-            _localMaximas.crbegin()->distance());
+            _localMinimas.begin()->distance(),
+            _localMaximas.rbegin()->distance());
         _windowWidthMax = _windowWidthMin;
         break;
-    case OSFW::SAME_TYPE_4:
+    case SAME_TYPE_4:
         _windowWidthMin = (unsigned int)std::max(
-            _localMinimas.cbegin()->distance(),
-            _localMaximas.crbegin()->distance());
+            _localMinimas.begin()->distance(),
+            _localMaximas.rbegin()->distance());
         _windowWidthMax = _windowWidthMin;
         break;
-    case OSFW::DIFFERENT_TYPE_1:
-        _windowWidthMin = (unsigned int)_localMinimas.crbegin()->distance();
-        _windowWidthMax = (unsigned int)_localMaximas.cbegin()->distance();
+    case DIFFERENT_TYPE_1:
+        _windowWidthMin = (unsigned int)_localMinimas.rbegin()->distance();
+        _windowWidthMax = (unsigned int)_localMaximas.begin()->distance();
         break;
-    case OSFW::DIFFERENT_TYPE_2:
-        _windowWidthMin = (unsigned int)_localMinimas.crbegin()->distance();
-        _windowWidthMax = (unsigned int)_localMaximas.crbegin()->distance();
+    case DIFFERENT_TYPE_2:
+        _windowWidthMin = (unsigned int)_localMinimas.rbegin()->distance();
+        _windowWidthMax = (unsigned int)_localMaximas.rbegin()->distance();
         break;
-    case OSFW::DIFFERENT_TYPE_3:
-        _windowWidthMin = (unsigned int)_localMinimas.cbegin()->distance();
-        _windowWidthMax = (unsigned int)_localMaximas.cbegin()->distance();
+    case DIFFERENT_TYPE_3:
+        _windowWidthMin = (unsigned int)_localMinimas.begin()->distance();
+        _windowWidthMax = (unsigned int)_localMaximas.begin()->distance();
         break;
-    case OSFW::DIFFERENT_TYPE_4:
-        _windowWidthMin = (unsigned int)_localMinimas.cbegin()->distance();
-        _windowWidthMax = (unsigned int)_localMaximas.crbegin()->distance();
+    case DIFFERENT_TYPE_4:
+        _windowWidthMin = (unsigned int)_localMinimas.begin()->distance();
+        _windowWidthMax = (unsigned int)_localMaximas.rbegin()->distance();
         break;
     default:
         _windowWidthMin = 3;
@@ -309,11 +309,11 @@ CImg<float> FABEMD::execute()
             buildExtremasMaps();
 
             // Exit if previous created BEMC had less than 3 extremas
-            /*if (extremaCount() < 3)
+            if (extremaCount() < 3)
             {
                 std::cout << "BIMF has less than 3 extremas" << std::endl;
                 return display;
-            }*/
+            }
 
             // The order statistics filters are based on maxima and minima maps of a S_i image (if j equals 1)
             if (j == 1)

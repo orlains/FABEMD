@@ -55,7 +55,7 @@ private:
 
 public:
     FABEMD(const cimg_library::CImg<float> & input, 
-        OSFW osfwType = OSFW::SAME_TYPE_1, 
+        OSFW osfwType = SAME_TYPE_1, 
         unsigned int maximumAllowableIterations = 1, 
         unsigned int size = 3, 
         float threshold = 0.05);

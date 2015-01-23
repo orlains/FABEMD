@@ -2,6 +2,7 @@
 #define __EXTREMA_H__
 
 #include <algorithm>
+#include <limits>
 #include <cmath>
 
 class Extrema

@@ -13,7 +13,6 @@ CImg<float> generateSample()
 {
     CImg<float> sample(8, 8);
 
-#pragma region "Sample definition"
     // 0
     sample(0, 0) = 8;
     sample(1, 0) = 8;
@@ -93,7 +92,6 @@ CImg<float> generateSample()
     sample(5, 7) = 9;
     sample(6, 7) = 1;
     sample(7, 7) = 1;
-#pragma endregion
 
     return sample;
 }
