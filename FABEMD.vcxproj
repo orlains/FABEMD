@@ -135,7 +135,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\elaine.bmp" />
-    <Image Include="data\lena.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

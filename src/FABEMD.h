@@ -11,14 +11,14 @@
 
 enum OSFW
 {
-    SAME_TYPE_1,
-    SAME_TYPE_2,
-    SAME_TYPE_3,
-    SAME_TYPE_4,
-    DIFFERENT_TYPE_1,
-    DIFFERENT_TYPE_2,
-    DIFFERENT_TYPE_3,
-    DIFFERENT_TYPE_4
+    SAME_TYPE_1 = 0x00,
+    SAME_TYPE_2 = 0x01,
+    SAME_TYPE_3 = 0x02,
+    SAME_TYPE_4 = 0x03,
+    DIFFERENT_TYPE_1 = 0x04,
+    DIFFERENT_TYPE_2 = 0x05,
+    DIFFERENT_TYPE_3 = 0x06,
+    DIFFERENT_TYPE_4 = 0x07
 };
 
 class FABEMD
@@ -39,20 +39,26 @@ private:
     cimg_library::CImg<float> _lowerEnvelope;
     cimg_library::CImg<float> _upperEnvelope;
     cimg_library::CImg<float> _averageEnvelope;
+    cimg_library::CImg<float> _lowerKernel;
+    cimg_library::CImg<float> _upperKernel;
 
     std::vector<Extrema> _localMinimas;
     std::vector<Extrema> _localMaximas;
 
     void buildExtremasMaps();
-    void computeNearests(std::vector<Extrema> & extremas);
-    float computeVariance();
+    void assignNearests(std::vector<Extrema> & extremas);
+    float standardDeviation();
     unsigned int extremaCount();
-    void computeWindowsWidths();
+    void computeFiltersWidths();
     void computeLowerEnvelope();
     void computeUpperEnvelope();
+
 public:
-    FABEMD(const cimg_library::CImg<float> & input, OSFW osfwType = OSFW::SAME_TYPE_1, unsigned int maximumAllowableIterations = 1, unsigned int size = 3, float threshold = 0.5);
-    ~FABEMD();
+    FABEMD(const cimg_library::CImg<float> & input, 
+        OSFW osfwType = OSFW::SAME_TYPE_1, 
+        unsigned int maximumAllowableIterations = 1, 
+        unsigned int size = 3, 
+        float threshold = 0.05);
     cimg_library::CImg<float> execute();
 };
 

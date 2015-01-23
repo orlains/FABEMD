@@ -37,9 +37,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="data\lena.bmp">
-      <Filter>Fichiers de ressources</Filter>
-    </Image>
     <Image Include="data\elaine.bmp">
       <Filter>Fichiers de ressources</Filter>
     </Image>

@@ -9,22 +9,25 @@ class Extrema
 public:
     struct Less
     {
-        bool operator() (Extrema a, Extrema b)
+        bool operator() (const Extrema & a, const Extrema & b) const
         {
             return a.distance() < b.distance();
         }
     };
+
     struct Greater
     {
-        bool operator() (Extrema a, Extrema b)
+        bool operator() (const Extrema & a, const Extrema & b) const
         {
             return a.distance() > b.distance();
         }
     };
+
 private:
     int _x;
     int _y;
     float _distance;
+
 public:
     Extrema(unsigned int x = 0, unsigned int y = 0);
 

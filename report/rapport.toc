@@ -1,0 +1,10 @@
+\select@language {american}
+\select@language {francais}
+\contentsline {chapter}{\numberline {1}Pr\IeC {\'e}sentation du sujet}{3}
+\contentsline {chapter}{\numberline {2}M\IeC {\'e}thode}{4}
+\contentsline {section}{\numberline {2.1}Partie th\IeC {\'e}orique}{4}
+\contentsline {section}{\numberline {2.2}Impl\IeC {\'e}mentation}{4}
+\contentsline {chapter}{\numberline {3}R\IeC {\'e}sultats}{5}
+\contentsline {section}{\numberline {3.1}Validation sur donn\IeC {\'e}es de synth\IeC {\`e}se}{5}
+\contentsline {section}{\numberline {3.2}Donn\IeC {\'e}es r\IeC {\'e}elles}{5}
+\contentsline {chapter}{\numberline {4}Discussion}{6}
