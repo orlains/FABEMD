@@ -1,7 +1,7 @@
 \chapter{Résultats}
 Dans cette partie, nous allons tout d'abord analyser les tests effectués sur des données de synthèse pour valider l'implémentation de FABEMD. Ensuite, nous verrons les résultats obtenus sur des données réelles.
 \section{Validation sur données de synthèse}
-Pour valider l'implémentation faite de l'algorithme FABEMD, nous allons tout d'abord analyser les résultats produits sur des données de synthèse. Pour ce faire, nous allons générer des images composées de sinusoïdes (figure \ref{fig:s}) et nous chercherons à extraire celles-ci dans chaque BIMF produit par FABEMD. Nous effectuerons nos tests en faisant varier deux des paramètres ayant une influence sur les décompositions produites : le choix de la taille des filtres et le nombre maximal d'itérations pour la génération d'un BIMF.
+Pour valider l'implémentation faite de l'algorithme FABEMD, nous allons tout d'abord analyser les résultats produits sur des données de synthèse. Pour ce faire, nous allons générer des images composées de sinusoïdes (figure \ref{fig:synthesis}) et nous chercherons à extraire celles-ci dans chaque BIMF produit par FABEMD. Nous effectuerons nos tests en faisant varier deux des paramètres ayant une influence sur les décompositions produites : le choix de la taille des filtres et le nombre maximal d'itérations pour la génération d'un BIMF.
 On peut observer qu'on obtient des résultats similaires aux résultats obtenus dans l'article. Le type 4 (figures \ref{fig:s_1_4} et \ref{fig:s_5_4}) de taille de filtre permet d'obtenir des résultats en un nombre d'itérations moins important. De même, comme décrit par Bhuiyan et al., les résultats obtenus par FABEMD sont optimaux lorsque l'on utilise un nombre maximal d'itérations égal à 1 (figures \ref{fig:s_1_1} et \ref{fig:s_1_4}). Par la suite, on favorisera donc ce paramètre pour l'utilisation de FABEMD sur des données réelles.
 
 \begin{figure}
@@ -27,7 +27,7 @@ On peut observer qu'on obtient des résultats similaires aux résultats obtenus 
   \caption{Somme des composantes}
 \end{subfigure}
 \caption{Image de synthèse et composantes utilisées pour les tests}
-\label{fig:s_1_4}
+\label{fig:synthesis}
 \end{figure}
 
 \begin{figure}
